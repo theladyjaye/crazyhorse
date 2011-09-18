@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.2.0.min.css">
+	<link rel="stylesheet" href="/resources/css/styles.css">
+	<script src="/resources/js/lib/jquery.js" charset="utf-8" async defer></script>
+	<title>CrazyHorse :: Contact</title>
+</head>
+<body>
+	<div id="contact" class="container">
+		<div class="topbar-wrapper" style="z-index: 5;">
+			<div class="topbar">
+				<div class="topbar-inner">
+					<div class="container">
+						<h3><a href="/">CrazyHorse</a></h3>
+						<ul class="nav">
+							<li><a href="/">Home</a></li>
+							<li><a href="/about">About</a></li>
+							<li><a href="/news">News</a></li>
+							<li class="active"><a href="/contact">Contact</a></li>
+						</ul>
+					</div>
+				</div><!-- /topbar-inner -->
+			</div><!-- /topbar -->
+		</div>
+		<h1>
+			contact
+			<small>say hi!</small>
+		</h1>
+
+		<form method="post" action="/contact" enctype="multipart/form-data">
+		<fieldset>
+			<legend>talk to us</legend>
+			<div class="clearfix">
+				<label for="name">Name</label>
+				<div class="input">
+					<input class="xlarge" id="name" name="name" size="30" type="text" value="{{name}}">
+				</div>
+			</div>
+			<div class="clearfix">
+				<label for="email">Email</label>
+				<div class="input">
+					<input class="xlarge" id="email" name="email" size="30" type="text" value="{{email}}">
+				</div>
+			</div>
+			<div class="clearfix">
+				<label for="message">Message</label>
+				<div class="input">
+					<textarea class="xxlarge" id="message" name="message">{{message}}</textarea>
+					<span class="help-block">
+						So, what's on your mind?
+					</span>
+				</div>
+			</div>
+			<div class="clearfix">
+				<label for="photo">Photo</label>
+				<div class="input">
+					<input class="input-file" id="photo" name="photo" type="file">
+				</div>
+			</div>
+			<div class="clearfix">
+				<label for="attachment">Attachment</label>
+				<div class="input">
+					<input class="input-file" id="attachment" name="attachment" type="file">
+				</div>
+			</div>
+			<div class="clearfix">
+				<label id="options">Sign up for:</label>
+				<div class="input">
+					<ul class="inputs-list">
+						<li>
+							<label>
+								<input type="checkbox" name="contact_options" value="newsletters" {% if contact_options and "newsletters" in contact_options %} checked {%endif%} >
+								<span>Newsletters</span>
+							</label>
+						</li>
+						<li>
+							<label>
+								<input type="checkbox" name="contact_options" value="texts" {% if contact_options and "texts" in contact_options %} checked {%endif%}>
+								<span>Text Alerts</span>
+							</label>
+						</li>
+						<li>
+							<label>
+								<input type="checkbox" name="contact_options" value="offers" {% if contact_options and  "offers" in contact_options %} checked {%endif%}>
+								<span>Offers</span>
+							</label>
+						</li>
+					</ul>
+					<span class="help-block">
+						<strong>Note:</strong> We will never sell your information
+					</span>
+				</div>
+			</div>
+			<div class="actions">
+				<input type="submit" class="btn primary" value="Submit">
+			</div>
+		</fieldset>
+		</form>
+	</div>
+</body>
+</html>
