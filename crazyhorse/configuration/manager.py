@@ -9,6 +9,7 @@ from crazyhorse.configuration.application import ApplicationSection
 from crazyhorse.configuration.crazyhorse import CrazyHorseSection
 from crazyhorse.utils.tools import import_class
 
+
 class Configuration(object):
 
     APP_SETTINGS        = None

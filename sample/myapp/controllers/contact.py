@@ -9,7 +9,7 @@ class ContactController(CrazyHorseController):
     @route(name        = "contact_index",
            path        = "/contact")
     def index(self):
-        model = {}
+        model = {"message":"contact"}
         return self.view("contact", model)
     
     @route_method("POST","contact_index")

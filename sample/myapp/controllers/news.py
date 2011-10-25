@@ -14,12 +14,12 @@ class NewsController(CrazyHorseController):
            path        = "/news/{category}",
            constraints = {"category":r"latest|featured"})
     def news_category(self, category):
-        model = {"message":"news", "category":category}
+        model = {"message":"news", "category":category, "type":"category"}
         return self.view("news_category", model)
       
     
     @route(name        = "news_catchall",
            path        = "/news/{category}")
     def news_catachall(self, category):
-        model = {"message":"news - catchall", "category":category}
+        model = {"message":"news - catchall", "category":category, "type":"catchall"}
         return self.view("news_category", model)

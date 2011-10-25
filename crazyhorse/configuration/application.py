@@ -1,8 +1,8 @@
 from __future__ import absolute_import
 import glob
 import os
-import crazyhorse
 import json
+import crazyhorse
 from crazyhorse.utils.tools import import_class
 from crazyhorse.utils.tools import import_module
 from crazyhorse.web.controller import CrazyHorseController
@@ -47,7 +47,6 @@ class ApplicationSection(ConfigurationSection):
             crazyhorse.get_logger().fatal("No controller array defined in config")
             raise exceptions.ConfigurationErrorException("No controllers array defined in application config")
 
-
         for controller in controllers:
             controllers_path = controller.replace(".", "/")
 
@@ -61,9 +60,11 @@ class ApplicationSection(ConfigurationSection):
                 module = import_module(module_path)
 
         self.process_orphaned_routes()
-        self.generate_route_json()
+        #self.generate_route_json()
 
     def generate_route_json(self):
+        crazyhorse.get_logger().debug("Generating route digest")
+        
         router = routing.application_router
         output = {}
         
@@ -142,5 +143,11 @@ class ApplicationSection(ConfigurationSection):
 
         if "settings" in section:
             settings = section["settings"]
+        
+        try:
+            if section["route_digest"] == True: self.generate_route_json()
+        except KeyError:
+            pass
+
 
         return settings

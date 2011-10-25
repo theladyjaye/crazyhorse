@@ -1,6 +1,7 @@
 from crazyhorse.web.controller import CrazyHorseController
 from crazyhorse.configuration.manager import Configuration
 from crazyhorse.web.actions import route
+
 class HomeController(CrazyHorseController):
 
     @route(name        = "Home",

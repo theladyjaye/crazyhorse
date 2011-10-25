@@ -6,4 +6,4 @@ class TestCrazyHorseBase(unittest.TestCase):
     app = None
 
     def application(self, environ, start_response):
-        TestCrazyHorseBase.app(environ, start_response)
+        return TestCrazyHorseBase.app(environ, start_response)
