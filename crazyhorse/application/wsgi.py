@@ -73,6 +73,7 @@ class Application(object):
 
             try:
                 context.response.result = route(context)
+            
             except exceptions.RouteExecutionException as e:
                 crazyhorse.get_logger().error(e.message)
                 
@@ -82,6 +83,18 @@ class Application(object):
                 except exceptions.InvalidRouteNameException, exceptions.RouteExecutionException:
                     # No 500 route, or it failed, in either case we are done here
                     start_response(ResponseStatus.SERVER_ERROR, [])
+                    return []
+            
+            except exceptions.RouteAuthorizationException as e:
+                #crazyhorse.get_logger().error(e.message)
+
+                try:
+                    route = router.route_with_name("authorization." + e.provider_name)
+
+                    context.response.result = route(context)
+                except exceptions.InvalidRouteNameException, exceptions.RouteExecutionException:
+                    # No authorization error route, or it failed, in either case we are done here
+                    start_response(ResponseStatus.FORBIDDEN, [])
                     return []
 
             return context

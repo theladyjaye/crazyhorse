@@ -8,3 +8,13 @@ class ServerErrorController(CrazyHorseController):
     def error_500(self):
         model = {"message":"There was an error"}
         return self.view("500", model)
+
+class AuthorizationErrorController(CrazyHorseController):
+
+    def error_default(self):
+        model = {"message":"authorize_default_failure"}
+        return self.view("403", model)
+
+    def error_other(self):
+        model = {"message":"authorize_other_failure"}
+        return self.view("403", model)

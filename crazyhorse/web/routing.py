@@ -136,6 +136,8 @@ class Route(object):
             if result is not None:
                 result._current_context = context
 
+        except exceptions.RouteAuthorizationException:
+            raise
         except Exception as e:
             raise exceptions.RouteExecutionException(path, "{0} in {1}.{2}".format(e.message, controller, action))
         

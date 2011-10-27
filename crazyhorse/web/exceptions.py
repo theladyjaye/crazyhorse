@@ -24,3 +24,9 @@ class RouteExecutionException(Exception):
     def __init__(self, path, message):
         self.message  = "Executing route for {0} failed: {1}".format(path, message)
 
+class RouteAuthorizationException(Exception):
+
+    def __init__(self, provider_name, message=""):
+        self.provider_name = provider_name
+        self.message  = "Authorization failed. {0}".format(message)
+

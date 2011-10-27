@@ -23,9 +23,17 @@ class HomeController(CrazyHorseController):
         return self.view("home", model)
 
     @authorize
-    @route(name = "Hidden", path = "/authorize")
-    def auth_test(self):
-        model = {"message":"authorize"}
+    @route(name = "TestAuthDefault", path = "/authorize_default")
+    def auth_test_default(self):
+        model = {"message":"authorize_default_success"}
+        request = self.current_context.request
+
+        return self.view("home", model)
+    
+    @authorize("other")
+    @route(name = "TestAuthOther", path = "/authorize_other")
+    def auth_test_other(self):
+        model = {"message":"authorize_other_success"}
         request = self.current_context.request
 
         return self.view("home", model)
