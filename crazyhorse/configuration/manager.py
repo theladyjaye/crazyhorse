@@ -6,14 +6,16 @@ import collections
 import crazyhorse
 from crazyhorse.web import exceptions
 from crazyhorse.configuration.application import ApplicationSection
+from crazyhorse.configuration.routes import ApplicationRoutesSection
 from crazyhorse.configuration.crazyhorse import CrazyHorseSection
 from crazyhorse.utils.tools import import_class
 
 
 class Configuration(object):
 
-    APP_SETTINGS        = None
-    CRAZYHORSE_FEATURES = None
+    APP_SETTINGS                = None
+    APP_AUTHORIZATION_PROVIDERS = None
+    CRAZYHORSE_FEATURES         = None
 
     def __init__(self):
         config_json = open(os.getcwd() + "/crazyhorse.config")
@@ -22,11 +24,15 @@ class Configuration(object):
 
 
     def initialize_sections(self, config):
-        application_section = ApplicationSection()
-        crazyhorse_section  = CrazyHorseSection()
+        application_section        = ApplicationSection()
+        application_routes_section = ApplicationRoutesSection()
+        crazyhorse_section         = CrazyHorseSection()
 
         try:
-            Configuration.APP_SETTINGS = application_section(config["application"])
+            result = application_section(config["application"])
+            Configuration.APP_AUTHORIZATION_PROVIDERS = result["authorization_providers"]
+            Configuration.APP_SETTINGS = result["settings"]
+            application_routes_section(config["application"])
         except KeyError:
             crazyhorse.get_logger().fatal("No application section defined in config")
             raise exceptions.ConfigurationErrorException("No application section defined in config")

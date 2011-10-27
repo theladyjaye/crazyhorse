@@ -3,6 +3,35 @@ import os
 import crazyhorse
 from crazyhorse.web import routing
 from crazyhorse.web import exceptions
+from crazyhorse.configuration.manager import Configuration
+
+def authorize(name="default"):
+
+    def decorator(f):
+        if Configuration.APP_AUTHORIZATION_PROVIDERS is not None:
+            if name in Configuration.APP_AUTHORIZATION_PROVIDERS:
+                
+                def handler(*args):
+                    if Configuration.APP_AUTHORIZATION_PROVIDERS[name].is_authorized(handler.__dict__["httpcontext"]):
+                        return f(*args)
+                    else:
+                        return None
+                return handler
+            
+            else:
+                raise Exception("Unable to find authorization handler for key {0}".format(name))
+        else:
+            crazyhorse.get_logger().warning("No authorization handlers defined")
+        
+        return f
+    
+    if hasattr(name, '__call__'):
+        func = name
+        name = "default"
+        return decorator(func)
+
+    return decorator
+        
 
 def route(name, path, method="GET", constraints=None):
     #only way I have currently found to get the class during decoration

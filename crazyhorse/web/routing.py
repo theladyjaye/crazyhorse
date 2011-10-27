@@ -127,9 +127,11 @@ class Route(object):
             pass
         
         method = getattr(obj, action)
+        method.__dict__["httpcontext"] = context
         
         try:
             result = method(**params)
+            del method.__dict__["httpcontext"]
 
             if result is not None:
                 result._current_context = context
