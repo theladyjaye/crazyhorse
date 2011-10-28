@@ -69,8 +69,6 @@ class Application(object):
             # TODO I think I can make this nicer
             # Feels a little sloppy to me
 
-            # TODO design hook for authorization/authentication
-
             try:
                 context.response.result = route(context)
             
@@ -90,7 +88,6 @@ class Application(object):
 
                 try:
                     route = router.route_with_name("authorization." + e.provider_name)
-
                     context.response.result = route(context)
                 except exceptions.InvalidRouteNameException, exceptions.RouteExecutionException:
                     # No authorization error route, or it failed, in either case we are done here

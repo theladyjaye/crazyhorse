@@ -7,12 +7,14 @@ from tests.test_base import TestCrazyHorseBase
 from tests.test_config import TestCrazyHorseConfig
 from tests.test_get_routes import TestCrazyHorseGetRoutes
 from tests.test_authorization_routes import TestCrazyHorseAuthorizationRoutes
+from tests.test_querystring import TestCrazyHorseQueryStringFeature
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestCrazyHorseConfig))
-    suite.addTest(unittest.makeSuite(TestCrazyHorseAuthorizationRoutes))
-    suite.addTest(unittest.makeSuite(TestCrazyHorseGetRoutes))
+    #suite.addTest(unittest.makeSuite(TestCrazyHorseConfig))
+    suite.addTest(unittest.makeSuite(TestCrazyHorseQueryStringFeature))
+    #suite.addTest(unittest.makeSuite(TestCrazyHorseAuthorizationRoutes))
+    #suite.addTest(unittest.makeSuite(TestCrazyHorseGetRoutes))
     
     #suite.addTest(unittest.makeSuite(TestCrazyHorseRoutes))
     #suite.addTest(unittest.makeSuite(TestCrazyHorse404))

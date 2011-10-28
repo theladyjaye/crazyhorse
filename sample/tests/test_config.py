@@ -3,6 +3,7 @@ import os
 from test_base import TestCrazyHorseBase
 from context import TestContext
 from crazyhorse.configuration.manager import Configuration
+from myapp.security import authorization
 
 class TestCrazyHorseConfig(TestCrazyHorseBase):
 
@@ -15,7 +16,14 @@ class TestCrazyHorseConfig(TestCrazyHorseBase):
         self.assertIsNotNone(Configuration.CRAZYHORSE_FEATURES["querystrings"])
         self.assertIsNotNone(Configuration.CRAZYHORSE_FEATURES["cookies"])
         self.assertIsNotNone(Configuration.CRAZYHORSE_FEATURES["sessions"])
-    
+
+    def test_authorization_handlers(self):
+        self.assertEqual(2, len(Configuration.APP_AUTHORIZATION_PROVIDERS))
+        self.assertIsNotNone(Configuration.APP_AUTHORIZATION_PROVIDERS["default"])
+        self.assertIsNotNone(Configuration.APP_AUTHORIZATION_PROVIDERS["other"])
+        self.assertTrue(isinstance(Configuration.APP_AUTHORIZATION_PROVIDERS["default"], authorization.DefaultAuthorizationProvider))
+        self.assertTrue(isinstance(Configuration.APP_AUTHORIZATION_PROVIDERS["other"], authorization.OtherAuthorizationProvider))
+        
     def test_custom_section_exists(self):
         try:
             Configuration.CUSTOM_FOO_SECTION

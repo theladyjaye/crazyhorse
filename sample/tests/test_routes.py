@@ -17,7 +17,7 @@ class TestCrazyHorseRoutes(TestCrazyHorseBase):
       context["PATH_INFO"]      = "/about/12345/read"
       context["wsgi.input"]     = body
       context["CONTENT_LENGTH"] = filesize
-      context["CONTENT_TYPE"] = "multipart/form-data; boundary=----WebKitFormBoundaryy68h9UzzE0zpkUU7"
+      context["CONTENT_TYPE"]   = "multipart/form-data; boundary=----WebKitFormBoundaryy68h9UzzE0zpkUU7"
 
       self.application(context, TestContext.default_response())
       self.assertTrue(True)
