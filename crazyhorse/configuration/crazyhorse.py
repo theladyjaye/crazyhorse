@@ -9,23 +9,32 @@ class CrazyHorseSection(ConfigurationSection):
         pass
 
     def initialize_features(self, section):
-        result = {}
+        #order is important here when it comes to cookies / sessions
+        #sessions must always be initialized after cookies.
+        #result = {}
+        result =[]
 
         if "request_body" in section:
             crazyhorse.get_logger().debug("Feature Enabled: Request Body")
-            result["request_body"] = self.load_feature(section["request_body"])
-
-        if "sessions" in section:
-            crazyhorse.get_logger().debug("Feature Enabled: Sessions")
-            result["sessions"] = self.load_feature(section["sessions"])
-
-        if "cookies" in section:
-            crazyhorse.get_logger().debug("Feature Enabled: Cookies")
-            result["cookies"] = self.load_feature(section["cookies"])
+            #result["request_body"] = self.load_feature(section["request_body"])
+            result.append(self.load_feature(section["request_body"]))
 
         if "querystrings" in section:
             crazyhorse.get_logger().debug("Feature Enabled: Query Strings")
-            result["querystrings"] = self.load_feature(section["querystrings"])
+            result.append(self.load_feature(section["querystrings"]))
+        
+        
+        if "cookies" in section:
+            crazyhorse.get_logger().debug("Feature Enabled: Cookies")
+            result.append(self.load_feature(section["cookies"]))
+
+        # needs to go last, so cookies can be initialized first.
+        if "sessions" in section:
+            if "cookies" not in section:
+                crazyhorse.get_logger().critical("Attempt to enable Sessions without enabling Cookies")
+            else:
+                crazyhorse.get_logger().debug("Feature Enabled: Sessions")
+                result.append(self.load_feature(section["sessions"]))
 
         return result
 

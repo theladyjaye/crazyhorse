@@ -63,7 +63,7 @@ class Application(object):
 
             # apply features
             application_features = Configuration.CRAZYHORSE_FEATURES
-            [application_features[x](context) for x in application_features]
+            [x(context) for x in application_features]
 
 
             # TODO I think I can make this nicer
