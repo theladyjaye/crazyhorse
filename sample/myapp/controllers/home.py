@@ -1,7 +1,7 @@
 from crazyhorse.web.controller import CrazyHorseController
 from crazyhorse.configuration.manager import Configuration
-from crazyhorse.web.actions import route
-from crazyhorse.web.actions import authorize
+from crazyhorse.web.decorators import route
+from crazyhorse.web.decorators import authorize
 
 class HomeController(CrazyHorseController):
     

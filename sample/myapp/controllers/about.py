@@ -1,6 +1,6 @@
 from crazyhorse.web.controller import CrazyHorseController
-from crazyhorse.web.actions import route
-from crazyhorse.web.actions import route_method
+from crazyhorse.web.decorators import route
+from crazyhorse.web.decorators import route_method
 
 class AboutController(CrazyHorseController):
 

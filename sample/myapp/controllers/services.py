@@ -1,7 +1,7 @@
 import httplib
 from crazyhorse.web.controller import CrazyHorseController
 from crazyhorse.web.results import SimpleJsonResult
-from crazyhorse.web.actions import route
+from crazyhorse.web.decorators import route
 
 class NewsController(CrazyHorseController):
 
