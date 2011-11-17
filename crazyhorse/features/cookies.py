@@ -10,8 +10,9 @@ import calendar
 
 def feature_cookies(context):
     feature = CookieHandler(context.environ.get("HTTP_COOKIE", None))
+    
     context.request.cookies  = feature
-    context.response.cookies = feature
+    context.response.cookies = CookieHandler()
 
 
 class CookieHandler(object):
@@ -31,7 +32,7 @@ class CookieHandler(object):
             self.parse(data)
 
 
-    def add(self, name, value, path=None, expires=None, domain=None, secure=None, httponly=None):
+    def add(self, name, value, path="/", expires=None, domain=None, secure=None, httponly=None):
 
         if expires is not None:
 

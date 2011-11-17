@@ -1,3 +1,5 @@
+from uuid import uuid4
+import datetime
 """
 import M2Crypto
 import hashlib
@@ -26,5 +28,19 @@ class RedisSessions(object):
             return None
 """
 def feature_sessions(context):
-    pass
+
+    #time = datetime.datetime.utcnow() + datetime.timedelta(minutes=15)
+
+    if context.request.cookies["SID"] == None:
+        sid = str(uuid4())
+        context.response.cookies.add(name="SID", 
+                                 value=sid, 
+                                 path="/",
+                                 #expires=time,
+                                 #domain="orion",
+                                 secure=None,
+                                 httponly=None)
+        context.session = {"test":sid}
+    else:
+        context.session = {"test":context.request.cookies["SID"]}
 

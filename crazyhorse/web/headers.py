@@ -6,7 +6,7 @@ class Headers(object):
         For example to add a Cookie it's Cookies.add()
         So I wanted Headers.add() as well.  Using wsgiref though
         it would have been Headers.add_header. No bueno for me.
-        values must compluy with PEP 333
+        values must comply with PEP 333
     """
     def __init__(self, values=[]):
 

@@ -12,6 +12,9 @@ class ResponseStatus(object):
 class Response(object):
 
     def __init__(self):
+        # points to the same object as 
+        # request.cookies
+        self.cookies = None
 
         self.headers = Headers()
         self.status  = ResponseStatus.OK
@@ -24,7 +27,7 @@ class Response(object):
     def __iter__(self):
         return iter(self.out)
 
-    def __call__(self, environ, start_response):
+    def __call__(self, context):
         
         result = self.result
         
@@ -44,17 +47,14 @@ class Response(object):
         if value is not None:
             self.out.append(value.encode("utf-8"))
 
-        #if self.cookies is not None and session is not None:
-        #    self.cookies.add(session.key, session.id, path="/")
 
-        if self.cookies is not None and len(self.cookies) > 0:
-            for cookie in self.cookies.header_items():
-                self.headers.add("Set-Cookie", cookie)
-            
-            #self.headers.add("Set-Cookie", "PHPSESSID=ushobtc017r9eibetu6rhnjcm0", path="/")
-            
+        # set the response cookies to override
+        # existing cookies or set new cookies
+        for cookie in self.cookies.header_items():
+            self.headers.add("Set-Cookie", cookie)
+
         
-        start_response(self.status, self.headers.items())
+        context.start_response(self.status, self.headers.items())
         #except Exception as e:
         #    print(e.message)
 

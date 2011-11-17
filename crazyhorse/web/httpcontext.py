@@ -14,4 +14,4 @@ class HttpContext(object):
         self.start_response = start_response
     
     def __iter__(self):
-        return iter(self.response(self.environ, self.start_response))
+        return iter(self.response(self))

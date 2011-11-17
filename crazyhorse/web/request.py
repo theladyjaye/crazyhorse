@@ -14,7 +14,6 @@ class Request(object):
 
         self.querystring    = None
         self.cookies        = None
-        self.session        = None
         self.data           = None
         self.files          = None
 
