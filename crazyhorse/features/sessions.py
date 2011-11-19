@@ -1,5 +1,6 @@
 from uuid import uuid4
 import datetime
+
 """
 import M2Crypto
 import hashlib
@@ -40,6 +41,7 @@ def feature_sessions(context):
                                  #domain="orion",
                                  secure=None,
                                  httponly=None)
+
         context.session = {"test":sid}
     else:
         context.session = {"test":context.request.cookies["SID"]}
