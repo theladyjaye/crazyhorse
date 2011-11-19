@@ -30,7 +30,7 @@ class Application(object):
 
             # paths in the router are normalied to not end with a /
             # so we apply the same rule here
-            if path[-1:] is "/":
+            if len(path) > 1 and path[-1:] is "/":
                 path = path[:-1]
 
             try:
