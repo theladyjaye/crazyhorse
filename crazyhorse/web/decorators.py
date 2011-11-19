@@ -33,6 +33,8 @@ def authorize(name="default"):
         
 
 def route(name, path, method="GET", constraints=None):
+    path_warning = False
+
     #only way I have currently found to get the class during decoration
     controller    = inspect.stack()[1][3]
 
@@ -50,8 +52,20 @@ def route(name, path, method="GET", constraints=None):
             file_path     = os.path.splitext(file_path[prefix_length:])[0]
 
     module_path   = file_path.replace("/", ".")
-
+    
+    
+    #normalize all paths, if they end with / strip it out
+    path = path.strip()
+    
+    if len(path) > 1 and path.endswith("/"):
+        path_warning = True
+        path = path[:-1]
+    
     def decorator(f):
+
+        if path_warning:
+            crazyhorse.get_logger().warning("Route paths should not end with / in {0}.{1}.{2}".format(module_path, controller, f.__name__))
+        
         args = {"name"        : name,
                 "path"        : path,
                 "constraints" : constraints,
