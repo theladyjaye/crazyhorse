@@ -74,7 +74,7 @@ class Application(object):
                 print(1)
             except exceptions.RouteExecutionException as e:
                 crazyhorse.get_logger().error(e.message)
-                    print("1a")
+                print("1a")
                 try:
                     route = router.route_with_name("500")
                     context.response.result = route(context)
