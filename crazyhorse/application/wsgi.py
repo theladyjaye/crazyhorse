@@ -1,3 +1,5 @@
+import sys
+import traceback
 import crazyhorse
 from crazyhorse.configuration.manager import Configuration
 from crazyhorse.web.httpcontext import HttpContext
@@ -7,20 +9,17 @@ from crazyhorse.web import routing
 
 class Application(object):
 
-    def __init__(self, application=None):
+    def __init__(self, application):
         
         # fire it up!
+        self.application = application
         crazyhorse.get_logger().info("Initializing CrazyHorse")
         crazyhorse.get_logger().debug("Processing Configuration")
         Configuration()
 
-        if application is not None:
-            application_start = getattr(application, "application_start", None)
-
-            if application_start:
-                crazyhorse.get_logger().debug("Executing custom application_start")
-                application_start()
-
+        crazyhorse.get_logger().debug("Executing custom application_start")
+        application.application_start()
+        
 
     def __call__(self, environ, start_response):
             route            = None
@@ -33,6 +32,16 @@ class Application(object):
             if len(path) > 1 and path[-1:] is "/":
                 path = path[:-1]
 
+            
+            # we have a route object, lets get busy:
+            context = HttpContext(environ, start_response)
+
+            # apply features
+            application_features = Configuration.CRAZYHORSE_FEATURES
+            [x(context) for x in application_features]
+
+            self.application.begin_request(context)
+
             try:
                 route = router.route_for_path(path)
             except exceptions.InvalidRoutePathException:
@@ -44,8 +53,7 @@ class Application(object):
                     return []
 
 
-            # we have a route object, lets get busy:
-            context = HttpContext(environ, start_response)
+            
 
             # -------- testing stuff
             #print(environ)
@@ -66,10 +74,6 @@ class Application(object):
             #    return []
             # --------
 
-            # apply features
-            application_features = Configuration.CRAZYHORSE_FEATURES
-            [x(context) for x in application_features]
-
 
             # TODO I think I can make this nicer
             # Feels a little sloppy to me
@@ -79,6 +83,9 @@ class Application(object):
 
             except exceptions.RouteExecutionException as e:
                 crazyhorse.get_logger().error(e.message)
+                tb = sys.exc_info()[2]
+                traceback.print_tb(tb, limit=5, file=sys.stdout)
+                del tb
 
                 try:
                     route = router.route_with_name("500")
