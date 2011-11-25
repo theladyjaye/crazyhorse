@@ -36,3 +36,4 @@ def feature_forms(context):
 
     context.request.data  = ParamCollection(params)
     context.request.files = ParamCollection(files)
+

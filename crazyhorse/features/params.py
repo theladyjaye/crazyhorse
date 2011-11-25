@@ -21,6 +21,13 @@ class ParamCollection(collections.Mapping):
 
         return value
 
+    def __getattr__(self, key):
+        try:
+            candidate = self._data[key]
+            return candidate[0] if len(candidate) is 1 else candidate
+        except KeyError:
+            raise AttributeError()
+
     def __iter__(self):
         return iter(self._data)
 
