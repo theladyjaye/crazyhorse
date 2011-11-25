@@ -30,7 +30,7 @@ class Response(object):
     def __call__(self, context):
         
         result = self.result
-        
+
         # TODO 
         # cached response could you the wsgi.sendfile option?
 
@@ -42,18 +42,19 @@ class Response(object):
             crazyhorse.get_logger().error(e.message)
 
         if result is not None:
-            value = result()
+            try:
+                value = result()
+            except Exception as e:
+                crazyhorse.get_logger().error(e.message)
 
         if value is not None:
             self.out.append(value.encode("utf-8"))
-
 
         # set the response cookies to override
         # existing cookies or set new cookies
         for cookie in self.cookies.header_items():
             self.headers.add("Set-Cookie", cookie)
 
-        
         context.start_response(self.status, self.headers.items())
         #except Exception as e:
         #    print(e.message)

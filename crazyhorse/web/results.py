@@ -1,5 +1,5 @@
 import json
-from crazyhorse.web.response import Response
+from crazyhorse.web.response import ResponseStatus
 
 class CrazyHorseResult(object):
 
@@ -38,5 +38,5 @@ class Redirect(CrazyHorseResult):
     def __call__(self):
         response = self.current_context.response
         response.headers.add("Location", self.location)
-        response.status = Response.MOVED_TEMPORARILY
+        response.status = ResponseStatus.MOVED_TEMPORARILY
         return None
