@@ -45,4 +45,6 @@ def feature_sessions(context):
         context.session = {"test":sid}
     else:
         context.session = {"test":context.request.cookies["SID"]}
+    
+    return 
 
