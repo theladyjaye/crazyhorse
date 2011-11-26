@@ -28,8 +28,6 @@ class Response(object):
         return iter(self.out)
 
     def __call__(self, context):
-        
-        print("executing reponse")
         result = self.result
 
         # TODO 

@@ -28,23 +28,29 @@ class RedisSessions(object):
         except KeyError as e:
             return None
 """
+
+class SessionHandler(object):
+    
+    def __init__(self, context):
+        if context.request.cookies["SID"] == None:
+            sid = str(uuid4())
+            context.response.cookies.add(name="SID", 
+                                     value=sid, 
+                                     path="/",
+                                     #expires=time,
+                                     #domain="orion",
+                                     secure=None,
+                                     httponly=None)
+
+            context.session = {"test":sid}
+        else:
+            context.session = {"test":context.request.cookies["SID"]}
+
+    def __crazyhorse_exit__(self):
+        #write the session to a permanent store
+        pass
+
 def feature_sessions(context):
 
-    #time = datetime.datetime.utcnow() + datetime.timedelta(minutes=15)
-
-    if context.request.cookies["SID"] == None:
-        sid = str(uuid4())
-        context.response.cookies.add(name="SID", 
-                                 value=sid, 
-                                 path="/",
-                                 #expires=time,
-                                 #domain="orion",
-                                 secure=None,
-                                 httponly=None)
-
-        context.session = {"test":sid}
-    else:
-        context.session = {"test":context.request.cookies["SID"]}
-    
-    return 
+    return SessionHandler(context)
 
