@@ -8,7 +8,7 @@ class HomeController(CrazyHorseController):
     @route(name = "Home", path = "/")
     def index(self):
         model = {"message":"home", "dog":"Unknown", "cat":"Unknown"}
-        request = self.current_context.request
+        request = self.httpcontext.request
         
         if request.querystring is not None:
             for key in request.querystring:
@@ -26,7 +26,7 @@ class HomeController(CrazyHorseController):
     @route(name = "TestAuthDefault", path = "/authorize_default")
     def auth_test_default(self):
         model = {"message":"authorize_default_success"}
-        request = self.current_context.request
+        request = self.httpcontext.request
 
         return self.view("home", model)
     
@@ -34,6 +34,6 @@ class HomeController(CrazyHorseController):
     @route(name = "TestAuthOther", path = "/authorize_other")
     def auth_test_other(self):
         model = {"message":"authorize_other_success"}
-        request = self.current_context.request
+        request = self.httpcontext.request
 
         return self.view("home", model)

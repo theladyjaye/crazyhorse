@@ -4,14 +4,14 @@ class CrazyHorseController(object):
     view_class = None
 
     def __init__(self):
-        self._current_context = None
+        self._httpcontext = None
 
     def initialize(self, request):
         pass
 
     @property
-    def current_context(self):
-        return self._current_context
+    def httpcontext(self):
+        return self._httpcontext
 
     def redirect(self, location):
         return Redirect(location)

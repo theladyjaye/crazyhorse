@@ -117,7 +117,7 @@ class Route(object):
             params = dict(zip(self.params, result.groups()))
 
         obj = cls()
-        obj._current_context = context
+        obj._httpcontext = context
         
         try:
             init = getattr(obj, "initialize")
@@ -134,7 +134,7 @@ class Route(object):
             del method.__dict__["httpcontext"]
 
             if result is not None:
-                result._current_context = context
+                result._httpcontext = context
 
         except exceptions.RouteAuthorizationException:
             raise

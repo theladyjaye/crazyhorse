@@ -16,8 +16,8 @@ class ContactController(CrazyHorseController):
     def submit(self):
         form   = ContactForm()
 
-        params = self.current_context.request.data
-        files  = self.current_context.request.files
+        params = self.httpcontext.request.data
+        files  = self.httpcontext.request.files
 
         objectutils.map_form_dict(form, params)
         objectutils.map_form_dict(form, files)

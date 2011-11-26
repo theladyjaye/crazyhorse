@@ -4,11 +4,11 @@ from crazyhorse.web.response import ResponseStatus
 class CrazyHorseResult(object):
 
     def __init__(self, *args, **kwargs):
-        self._current_context = None
+        self._httpcontext = None
     
     @property
-    def current_context(self):
-        return self._current_context
+    def httpcontext(self):
+        return self._httpcontext
     
     @property
     def content_type(self):
@@ -36,7 +36,7 @@ class Redirect(CrazyHorseResult):
         self.location = location
 
     def __call__(self):
-        response = self.current_context.response
+        response = self.httpcontext.response
         response.headers.add("Location", self.location)
         response.status = ResponseStatus.MOVED_TEMPORARILY
         return None
