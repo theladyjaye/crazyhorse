@@ -1,4 +1,5 @@
 from crazyhorse.web.results import Redirect
+from crazyhorse.web.results import JsonResult
 
 class CrazyHorseController(object):
     view_class = None
@@ -15,6 +16,11 @@ class CrazyHorseController(object):
 
     def redirect(self, location):
         return Redirect(location)
+
+    def json(self, data):
+        """Where data is a dict"""
+        return JsonResult(data)
+
 
     def view(self, *args, **kwargs):
         return CrazyHorseController.view_class(*args, **kwargs)

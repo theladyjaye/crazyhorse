@@ -14,11 +14,11 @@ class CrazyHorseResult(object):
     def content_type(self):
         return "text/plain"
 
-class SimpleJsonResult(CrazyHorseResult):
+class JsonResult(CrazyHorseResult):
 
-    def __init__(self, json, encode=False):
+    def __init__(self, data, encode=True):
         if encode:
-            self.json = json.dumps(json)
+            self.json = json.dumps(data)
         else:
             self.json = json
     
