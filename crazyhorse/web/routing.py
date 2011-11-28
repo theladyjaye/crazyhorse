@@ -1,12 +1,12 @@
 import re
 from crazyhorse.web import exceptions
 from crazyhorse.utils.tools import import_class
+
 def register_route(name, controller, action, path, method="GET", constraints=None):
     route = Route(path, constraints)
     route.register_action_for_method(method, controller, action)
     application_router.add_route(name, route)
     return route
-
 
 class Router(object):
 

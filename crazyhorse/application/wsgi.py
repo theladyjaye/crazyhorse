@@ -5,7 +5,9 @@ import crazyhorse
 from crazyhorse.application import CrazyHorseExecutionContext
 from crazyhorse.configuration.manager import Configuration
 from crazyhorse.web.httpcontext import HttpContext
-from crazyhorse.web.response import ResponseStatus
+from crazyhorse.web.results import NotFoundResult
+from crazyhorse.web.results import ServerErrorResult
+from crazyhorse.web.results import ForbiddenResult
 from crazyhorse.web import exceptions
 from crazyhorse.web import routing
 
@@ -53,9 +55,11 @@ class Application(object):
                     try:
                         route = router.route_with_name("404")
                     except exceptions.InvalidRouteNameException:
-                        # No 404 route, we are done here
-                        start_response(ResponseStatus.NOT_FOUND, [])
-                        return []
+                        # No 404 override route, we are done here
+                        result = NotFoundResult()
+                        result._httpcontext = context
+                        context.response.result = result
+                        return context
 
                 # -------- testing stuff
                 #print(environ)
@@ -95,8 +99,10 @@ class Application(object):
 
                     except exceptions.InvalidRouteNameException, exceptions.RouteExecutionException:
                         # No 500 route, or it failed, in either case we are done here
-                        start_response(ResponseStatus.SERVER_ERROR, [])
-                        return []
+                        result = ServerErrorResult()
+                        result._httpcontext = context
+                        context.response.result = result
+                        return context
                 
                 except exceptions.RouteAuthorizationException as e:
                     #crazyhorse.get_logger().error(e.message)
@@ -106,8 +112,10 @@ class Application(object):
                         context.response.result = route(context)
                     except exceptions.InvalidRouteNameException, exceptions.RouteExecutionException:
                         # No authorization error route, or it failed, in either case we are done here
-                        start_response(ResponseStatus.FORBIDDEN, [])
-                        return []
+                        result = ForbiddenResult()
+                        result._httpcontext = context
+                        context.response.result = result
+                        return context
 
                 return context
             #end context manager

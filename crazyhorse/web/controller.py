@@ -1,4 +1,4 @@
-from crazyhorse.web.results import Redirect
+from crazyhorse.web.results import RedirectResult
 from crazyhorse.web.results import JsonResult
 
 class CrazyHorseController(object):
@@ -15,7 +15,7 @@ class CrazyHorseController(object):
         return self._httpcontext
 
     def redirect(self, location):
-        return Redirect(location)
+        return RedirectResult(location)
 
     def json(self, data):
         """Where data is a dict"""

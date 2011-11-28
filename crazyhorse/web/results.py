@@ -30,13 +30,34 @@ class JsonResult(CrazyHorseResult):
         
         return self.json
 
-class Redirect(CrazyHorseResult):
+class RedirectResult(CrazyHorseResult):
 
-    def __init__(self, location):
-        self.location = location
+    def __init__(self, url):
+        self.url = url
 
     def __call__(self):
         response = self.httpcontext.response
-        response.headers.add("Location", self.location)
+        response.headers.add("Location", self.url)
         response.status = ResponseStatus.MOVED_TEMPORARILY
+        return None
+
+class NotFoundResult(CrazyHorseResult):
+
+    def __call__(self):
+        response = self.httpcontext.response
+        response.status = ResponseStatus.NOT_FOUND
+        return None
+
+class ServerErrorResult(CrazyHorseResult):
+
+    def __call__(self):
+        response = self.httpcontext.response
+        response.status = ResponseStatus.SERVER_ERROR
+        return None
+
+class ForbiddenResult(CrazyHorseResult):
+
+    def __call__(self):
+        response = self.httpcontext.response
+        response.status = ResponseStatus.FORBIDDEN
         return None

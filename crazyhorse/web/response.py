@@ -29,7 +29,6 @@ class Response(object):
 
     def __call__(self, context):
         result = self.result
-
         # TODO 
         # cached response could you the wsgi.sendfile option?
 
