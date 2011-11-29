@@ -32,7 +32,7 @@ class Application(object):
             router           = routing.application_router
             features         = None
 
-            # paths in the router are normalied to not end with a /
+            # paths in the router are normalzied to not end with a /
             # so we apply the same rule here
             if len(path) > 1 and path[-1:] is "/":
                 path = path[:-1]

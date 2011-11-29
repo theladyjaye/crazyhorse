@@ -19,3 +19,16 @@ class Request(object):
 
         header_values       = [(x[5:].replace("_", "-").lower(), environ[x]) for x in environ if x.startswith("HTTP")]
         self.headers        = Headers(header_values)
+
+    @property
+    def is_ajax_request(self):
+        
+        try:
+            ajax_header = self.headers["x-requested-with"].lower()
+        except AttributeError:
+            return False
+        
+        if ajax_header == "xmlhttprequest":
+            return True
+        
+        return False
