@@ -54,7 +54,7 @@ class Application(object):
                 except exceptions.InvalidRoutePathException:
                     try:
                         route = router.route_with_name("404")
-                    except exceptions.InvalidRouteNameException:
+                    except exceptions.InvalidRouteNameException as e:
                         # No 404 override route, we are done here
                         result = NotFoundResult()
                         result._httpcontext = context
@@ -97,7 +97,7 @@ class Application(object):
                         route = router.route_with_name("500")
                         context.response.result = route(context)
 
-                    except exceptions.InvalidRouteNameException, exceptions.RouteExecutionException:
+                    except (exceptions.InvalidRouteNameException, exceptions.RouteExecutionException) as e:
                         # No 500 route, or it failed, in either case we are done here
                         result = ServerErrorResult()
                         result._httpcontext = context
@@ -110,7 +110,7 @@ class Application(object):
                     try:
                         route = router.route_with_name("authorization." + e.provider_name)
                         context.response.result = route(context)
-                    except exceptions.InvalidRouteNameException, exceptions.RouteExecutionException:
+                    except (exceptions.InvalidRouteNameException, exceptions.RouteExecutionException) as e:
                         # No authorization error route, or it failed, in either case we are done here
                         result = ForbiddenResult()
                         result._httpcontext = context

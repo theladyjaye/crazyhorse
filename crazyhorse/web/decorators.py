@@ -11,9 +11,9 @@ def authorize(name="default"):
         if Configuration.APP_AUTHORIZATION_PROVIDERS is not None:
             if name in Configuration.APP_AUTHORIZATION_PROVIDERS:
                 
-                def handler(*args):
+                def handler(*args, **kwargs):
                     if Configuration.APP_AUTHORIZATION_PROVIDERS[name].is_authorized(handler.__dict__["httpcontext"]):
-                        return f(*args)
+                        return f(*args, **kwargs)
                     else:
                         raise exceptions.RouteAuthorizationException(name)
                 return handler
