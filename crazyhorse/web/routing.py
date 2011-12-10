@@ -47,7 +47,7 @@ class Router(object):
 
 
 class Route(object):
-    params_test = re.compile(r"\{([a-zA-Z0-9]+)\}")
+    params_test = re.compile(r"\{([a-zA-Z0-9_]+)\}")
 
     def __init__(self, path=None, constraints=None):
         self.actions     = {}
