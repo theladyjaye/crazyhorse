@@ -127,6 +127,7 @@ class Route(object):
             pass
         
         method = getattr(obj, action)
+        
         # set the httpcontext for the @authorize 
         # decorator if needed
         method.__dict__["httpcontext"] = context
