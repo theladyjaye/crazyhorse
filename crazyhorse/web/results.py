@@ -17,10 +17,8 @@ class CrazyHorseResult(object):
 class JsonResult(CrazyHorseResult):
 
     def __init__(self, data, encode=True):
-        if encode:
-            self.json = json.dumps(data)
-        else:
-            self.json = json
+        self._encode = encode
+        self.data = data
     
     @property
     def content_type(self):
@@ -28,7 +26,10 @@ class JsonResult(CrazyHorseResult):
 
     def __call__(self):
         
-        return self.json
+        if self._encode:
+            return json.dumps(self.data)
+        else:
+            return self.data
 
 class RedirectResult(CrazyHorseResult):
 

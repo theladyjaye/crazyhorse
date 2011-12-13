@@ -12,4 +12,4 @@ class CrazyHorseExecutionContext(object):
     
     def __exit__(self, exc_type, exc_value, traceback):
         self.application.end_request(self.httpcontext)
-        [x.__crazyhorse_exit__() for x in self.features]
+        (x.__crazyhorse_exit__() for x in self.features)

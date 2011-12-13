@@ -56,15 +56,16 @@ def route(name, path, method="GET", constraints=None):
     
     #normalize all paths, if they end with / strip it out
     path = path.strip()
+    path = os.path.normpath(path)
     
-    if len(path) > 1 and path.endswith("/"):
-        path_warning = True
-        path = path[:-1]
+    #if len(path) > 1 and path.endswith("/"):
+    #    path_warning = True
+    #    path = path[:-1]
     
     def decorator(f):
 
-        if path_warning:
-            crazyhorse.get_logger().warning("Route paths should not end with / in {0}.{1}.{2}".format(module_path, controller, f.__name__))
+        #if path_warning:
+        #    crazyhorse.get_logger().warning("Route paths should not end with / in {0}.{1}.{2}".format(module_path, controller, f.__name__))
         
         args = {"name"        : name,
                 "path"        : path,

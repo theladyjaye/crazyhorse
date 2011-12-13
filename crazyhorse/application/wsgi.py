@@ -1,4 +1,5 @@
 import sys
+from os.path import normpath
 import traceback
 import crazyhorse
 
@@ -34,8 +35,9 @@ class Application(object):
 
             # paths in the router are normalzied to not end with a /
             # so we apply the same rule here
-            if len(path) > 1 and path[-1:] is "/":
-                path = path[:-1]
+            path = normpath(path)
+            #if len(path) > 1 and path[-1:] is "/":
+            #    path = path[:-1]
 
             
             # we have a route object, lets get busy:
