@@ -1,7 +1,7 @@
 import json
 from crazyhorse.web.response import ResponseStatus
 
-class CrazyHorseResult(object):
+class CrazyHorseResult:
 
     def __init__(self, *args, **kwargs):
         self._httpcontext = None

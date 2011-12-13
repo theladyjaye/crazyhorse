@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 import crazyhorse
 from crazyhorse.configuration.sections import ConfigurationSection
 from crazyhorse.utils.tools import import_class

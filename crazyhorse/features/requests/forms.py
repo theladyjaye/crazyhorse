@@ -1,4 +1,4 @@
-import urlparse
+import urllib
 import crazyhorse
 from crazyhorse.features.params import ParamCollection
 from crazyhorse.features.requests import multipart
@@ -18,7 +18,7 @@ def feature_forms(context):
     if content_length > 0:
             
             if content_type == "application/x-www-form-urlencoded":
-                params = urlparse.parse_qs(data.read(content_length))
+                params = urllib.parse.parse_qs(data.read(content_length))
 
             elif content_type.startswith("multipart/form-data"):
                 index    = content_type.rfind("=") + 1

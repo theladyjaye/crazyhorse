@@ -1,7 +1,7 @@
 import unittest
 import os
-from test_base import TestCrazyHorseBase
-from context import TestContext
+from tests.test_base import TestCrazyHorseBase
+from tests.context import TestContext
 from crazyhorse.configuration.manager import Configuration
 
 class TestCrazyHorseAuthorizationRoutes(TestCrazyHorseBase):

@@ -1,4 +1,4 @@
-from test_base import TestCrazyHorseBase
+from tests.test_base import TestCrazyHorseBase
 import unittest
 
 class TestCrazyHorse404(TestCrazyHorseBase):

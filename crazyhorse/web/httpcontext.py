@@ -1,7 +1,7 @@
 from crazyhorse.web.request import Request
 from crazyhorse.web.response import Response
 
-class HttpContext(object):
+class HttpContext:
 
     def __init__(self, environ, start_response):
         self.path           = environ["PATH_INFO"]

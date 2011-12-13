@@ -1,7 +1,7 @@
 from crazyhorse.web.results import RedirectResult
 from crazyhorse.web.results import JsonResult
 
-class CrazyHorseController(object):
+class CrazyHorseController:
     view_class = None
 
     def __init__(self):

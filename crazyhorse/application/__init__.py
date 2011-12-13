@@ -1,4 +1,4 @@
-class CrazyHorseExecutionContext(object):
+class CrazyHorseExecutionContext:
     def __init__(self, application, features, httpcontext):
         self.application = application
         self.httpcontext = httpcontext

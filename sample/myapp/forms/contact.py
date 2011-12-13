@@ -1,4 +1,4 @@
-class ContactForm(object):
+class ContactForm:
 
     def __init__(self):
         self.name            = ""

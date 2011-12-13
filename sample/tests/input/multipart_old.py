@@ -1,4 +1,4 @@
-import urlparse
+import urllib
 import os
 import time
 #import tempfile
@@ -93,7 +93,7 @@ class FormParser(object):
 
     def _parse_urlencoded(self, length, data):
         body = data.read(length)
-        return urlparse.parse_qs(body)
+        return urllib.parse.parse_qs(body)
 
     def _parse_multipart(self, length, data, boundary):
         body   = data.read(length)

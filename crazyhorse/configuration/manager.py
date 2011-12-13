@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 import os
 import json
 import importlib
@@ -11,7 +10,7 @@ from crazyhorse.configuration.crazyhorse import CrazyHorseSection
 from crazyhorse.utils.tools import import_class
 
 
-class Configuration(object):
+class Configuration:
 
     APP_SETTINGS                = None
     APP_AUTHORIZATION_PROVIDERS = None

@@ -1,5 +1,5 @@
 import wsgiref.headers
-class Headers(object):
+class Headers:
     """
         this class is basically a shell for wsgiref.headers.Headers
         Why? trying to keep the access consistent.

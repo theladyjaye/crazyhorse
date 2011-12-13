@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 import glob
 import os
 import json
@@ -83,7 +82,8 @@ class ApplicationRoutesSection(ConfigurationSection):
             output[route.path] = {"actions":actions, "meta":meta}
         
         with open("routes.json", "wb") as target:
-            target.write(json.dumps(output, sort_keys=True, indent=4))
+            #target.write(json.dumps(output, sort_keys=True, indent=4))
+            target.write(bytes(json.dumps(output, indent=4), "utf-8"))
 
 
     def process_orphaned_routes(self):
@@ -97,8 +97,8 @@ class ApplicationRoutesSection(ConfigurationSection):
                         route.register_action_for_method(method, controller, action)
                 except:
                     temp_route = routing.temp_routes[route_name]
-                    for key in temp_route.iterkeys():
-                        crazyhorse.get_logger().warning("Failed to register route for with name: {0} for {1}::{2}".format(route_name, temp_route[key][0], temp_route[key][1]))
+                    for value in temp_route.values():
+                        crazyhorse.get_logger().warning("Failed to register route for with name: {0} for {1}::{2}".format(route_name, value[0], value[1]))
 
         del routing.temp_routes
 

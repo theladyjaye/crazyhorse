@@ -1,4 +1,4 @@
-class TestContext(object):
+class TestContext:
 
     @classmethod
     def default_response(cls):

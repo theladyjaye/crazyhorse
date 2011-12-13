@@ -1,7 +1,7 @@
 import unittest
 import os
-from test_base import TestCrazyHorseBase
-from context import TestContext
+from tests.test_base import TestCrazyHorseBase
+from tests.context import TestContext
 
 
 class TestCrazyHorseRoutes(TestCrazyHorseBase):

@@ -29,7 +29,7 @@ class RedisSessions(object):
             return None
 """
 
-class SessionHandler(object):
+class SessionHandler:
     
     def __init__(self, context):
         if context.request.cookies["SID"] == None:

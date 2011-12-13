@@ -8,7 +8,7 @@ def register_route(name, controller, action, path, method="GET", constraints=Non
     application_router.add_route(name, route)
     return route
 
-class Router(object):
+class Router:
 
     def __init__(self):
         self.route_table      = []
@@ -46,7 +46,7 @@ class Router(object):
         return route
 
 
-class Route(object):
+class Route:
     params_test = re.compile(r"\{([a-zA-Z0-9_]+)\}")
 
     def __init__(self, path=None, constraints=None):

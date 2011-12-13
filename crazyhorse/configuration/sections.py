@@ -1,3 +1,3 @@
-class ConfigurationSection(object):
+class ConfigurationSection:
     def __init__(self):pass
     def __call__(self, *args, **kwargs):pass

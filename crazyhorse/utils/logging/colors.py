@@ -1,7 +1,7 @@
 ESCAPE  = "\033["
 RESET   = 0
 
-class ForegroundColors(object):
+class ForegroundColors:
     BLACK   = 30
     RED     = 31
     GREEN   = 32

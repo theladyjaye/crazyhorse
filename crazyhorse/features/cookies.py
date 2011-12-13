@@ -43,7 +43,7 @@ class CookieHandler(object):
                 time_tuple = calendar.timegm(expires.utctimetuple())
                 expires    = email.utils.formatdate(time_tuple, localtime=False, usegmt=True)
 
-        self.cookies[name] = {"value":urllib.quote_plus(value),
+        self.cookies[name] = {"value":urllib.parse.quote_plus(value),
                                 "path":path,
                                 "expires":expires if expires is not None else None,
                                 "domain":domain,
@@ -55,7 +55,7 @@ class CookieHandler(object):
 
         for key in self.cookies:
             parts = []
-            parts.append(urllib.quote_plus(key) + "=" + self.cookies[key]["value"])
+            parts.append(urllib.parse.quote_plus(key) + "=" + self.cookies[key]["value"])
 
             if self.cookies[key]["path"] is not None:
                 parts.append("path=" + self.cookies[key]["path"])
@@ -83,7 +83,7 @@ class CookieHandler(object):
         data = [tuple(item.strip().split("=")) for item in data.split(";")]
 
         for item in data:
-            self.cookies[urllib.unquote_plus(item[0])] = { "value":urllib.unquote_plus(item[1]) }
+            self.cookies[urllib.parse.unquote_plus(item[0])] = { "value":urllib.parse.unquote_plus(item[1]) }
 
 
     def __len__(self):

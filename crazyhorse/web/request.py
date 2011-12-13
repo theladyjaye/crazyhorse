@@ -1,5 +1,5 @@
 from crazyhorse.web.headers import Headers
-class Request(object):
+class Request:
 
     def __init__(self, environ):
 

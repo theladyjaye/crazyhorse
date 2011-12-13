@@ -1,4 +1,4 @@
-class CrazyHorseApplication(object):
+class CrazyHorseApplication:
     
     def __init__(self):pass
     def application_start(self):pass

@@ -12,7 +12,7 @@ from crazyhorse.web.results import ForbiddenResult
 from crazyhorse.web import exceptions
 from crazyhorse.web import routing
 
-class Application(object):
+class Application:
 
     def __init__(self, application):
         

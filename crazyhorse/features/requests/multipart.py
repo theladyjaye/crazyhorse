@@ -23,7 +23,7 @@ class MultipartException(Exception):
     def __init__(self, message):
         self.message = message
 
-class MultipartParser(object):
+class MultipartParser:
     
     def __init__(self, boundary, data):
         self.files                  = {}
