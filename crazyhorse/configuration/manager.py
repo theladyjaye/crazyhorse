@@ -19,9 +19,12 @@ class Configuration(object):
 
     def __init__(self):
         config_json = open(os.getcwd() + "/crazyhorse.config")
-        config      = json.load(config_json)
+        try:
+            config      = json.load(config_json)
+        except Exception as e:
+            crazyhorse.get_logger().fatal("Unable to decode crazyhorse.config: {0}".format(e.message))
+        
         self.initialize_sections(config)
-
 
     def initialize_sections(self, config):
         application_section        = ApplicationSection()

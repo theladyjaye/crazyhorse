@@ -6,5 +6,5 @@ class CrazyHorseAuthorizationProvider(object):
     def httpcontext(self):
         return self._httpcontext
 
-    def is_authorized(self, httpcontext):
+    def is_authorized(self):
         return True

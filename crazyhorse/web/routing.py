@@ -1,4 +1,5 @@
 import re
+import weakref
 from crazyhorse.web import exceptions
 from crazyhorse.utils.tools import import_class
 
@@ -129,11 +130,10 @@ class Route(object):
         
         # set the httpcontext for the @authorize 
         # decorator if needed
-        method.__dict__["httpcontext"] = context
+        method.__dict__["httpcontext"] = weakref.ref(context)()
         
         try:
             result = method(**params)
-            del method.__dict__["httpcontext"]
 
             if result is not None:
                 result._httpcontext = context

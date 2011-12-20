@@ -1,5 +1,6 @@
 import inspect
 import os
+import weakref
 import crazyhorse
 from crazyhorse.web import routing
 from crazyhorse.web import exceptions
@@ -11,18 +12,23 @@ def authorize(name="default"):
         if Configuration.APP_AUTHORIZATION_PROVIDERS is not None:
             if name in Configuration.APP_AUTHORIZATION_PROVIDERS:
                 cls = Configuration.APP_AUTHORIZATION_PROVIDERS[name]
+                
                 def handler(*args, **kwargs):
                     httpcontext = handler.__dict__["httpcontext"]
                     auth_provider = cls(httpcontext)
-                    
+
                     if auth_provider.is_authorized():
+                        # if there are multiple authorization providers
+                        # pass the httpcontext ref
+                        f.__dict__["httpcontext"] = weakref.ref(httpcontext)()
                         return f(*args, **kwargs)
                     else:
                         try:
-                            return auth_provider(*args, **kwargs)
-                        except:
+                            return auth_provider()
+                        except Exception as e:
                             raise exceptions.RouteAuthorizationException(name)
                 return handler
+            
             else:
                 raise Exception("Unable to find authorization handler for key {0}".format(name))
         else:
