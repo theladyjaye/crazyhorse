@@ -116,8 +116,7 @@ class Route(object):
             result = self.pattern.match(path)
             params = dict(zip(self.params, result.groups()))
 
-        obj = cls()
-        obj._httpcontext = context
+        obj = cls(context)
         
         try:
             init = getattr(obj, "initialize")

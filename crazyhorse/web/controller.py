@@ -4,8 +4,8 @@ from crazyhorse.web.results import JsonResult
 class CrazyHorseController(object):
     view_class = None
 
-    def __init__(self):
-        self._httpcontext = None
+    def __init__(self, httpcontext):
+        self._httpcontext = httpcontext
 
     def initialize(self, request):
         pass

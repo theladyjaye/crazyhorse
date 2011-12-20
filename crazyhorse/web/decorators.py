@@ -10,12 +10,18 @@ def authorize(name="default"):
     def decorator(f):
         if Configuration.APP_AUTHORIZATION_PROVIDERS is not None:
             if name in Configuration.APP_AUTHORIZATION_PROVIDERS:
-                
+                cls = Configuration.APP_AUTHORIZATION_PROVIDERS[name]
                 def handler(*args, **kwargs):
-                    if Configuration.APP_AUTHORIZATION_PROVIDERS[name].is_authorized(handler.__dict__["httpcontext"]):
+                    httpcontext = handler.__dict__["httpcontext"]
+                    auth_provider = cls(httpcontext)
+                    
+                    if auth_provider.is_authorized():
                         return f(*args, **kwargs)
                     else:
-                        raise exceptions.RouteAuthorizationException(name)
+                        try:
+                            return auth_provider(*args, **kwargs)
+                        except:
+                            raise exceptions.RouteAuthorizationException(name)
                 return handler
             else:
                 raise Exception("Unable to find authorization handler for key {0}".format(name))
