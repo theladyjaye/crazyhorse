@@ -28,7 +28,7 @@ class ApplicationSection(ConfigurationSection):
             cls = import_class(package)
             
             if cls:
-                providers[name] = cls
+                providers[name] = cls()
                 continue
             
             crazyhorse.get_logger().fatal("Failed to import authorization provider: {0}.".format(package))
