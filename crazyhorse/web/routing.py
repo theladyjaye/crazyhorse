@@ -129,8 +129,8 @@ class Route(object):
         method = getattr(obj, action)
         
         # set the httpcontext for the @authorize 
-        # decorator if needed
-        method.__dict__["httpcontext"] = weakref.ref(context)()
+        # or any other decorator if needed
+        method.__dict__["crazyhorse"] = weakref.WeakValueDictionary({"httpcontext":context})
         
         try:
             result = method(**params)

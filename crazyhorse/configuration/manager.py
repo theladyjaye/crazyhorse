@@ -18,37 +18,45 @@ class Configuration(object):
     CRAZYHORSE_FEATURES         = None
 
     def __init__(self):
-        config_json = open(os.getcwd() + "/crazyhorse.config")
-        try:
-            config      = json.load(config_json)
-        except Exception as e:
-            crazyhorse.get_logger().fatal("Unable to decode crazyhorse.config: {0}".format(e.message))
-        
-        self.initialize_sections(config)
+        with open(os.getcwd() + "/crazyhorse.config") as config_json:
+            try:
+                config      = json.load(config_json)
+                self.initialize_sections(config)
+            except ValueError:
+                crazyhorse.get_logger().fatal("Unable to decode crazyhorse.config: {0}".format(str(e)))
+            except Exception as e:
+                crazyhorse.get_logger().fatal("Error parsing config: {0}".format(str(e)))
 
     def initialize_sections(self, config):
         application_section        = ApplicationSection()
         application_routes_section = ApplicationRoutesSection()
-        crazyhorse_section         = CrazyHorseSection()
+        application_config         = None
 
         try:
-            result = application_section(config["application"])
-            Configuration.APP_AUTHORIZATION_PROVIDERS = result["authorization_providers"]
-            Configuration.APP_SETTINGS = result["settings"]
-            application_routes_section(config["application"])
+            application_config = config["application"]
         except KeyError:
             crazyhorse.get_logger().fatal("No application section defined in config")
             raise exceptions.ConfigurationErrorException("No application section defined in config")
+        
+        processed_results                         = application_section(application_config)
+        Configuration.APP_SETTINGS                = processed_results["settings"]
+        Configuration.APP_AUTHORIZATION_PROVIDERS = processed_results["authorization_providers"]
+        
+        application_routes_section(application_config)
 
-        try:
-            Configuration.CRAZYHORSE_FEATURES = crazyhorse_section(config["crazyhorse"])
-        except KeyError:
-            crazyhorse.get_logger().fatal("No crazyhorse section defined in config")
-            raise exceptions.ConfigurationErrorException("No crazyhorse section defined in config")
+        self.initialize_crazyhorse_features(config)
 
         if "custom_sections" in config:
             for custom_section in config["custom_sections"]:
                 self.initialize_custom_section(config, custom_section)
+    
+    def initialize_crazyhorse_features(self, config):
+        try:
+            crazyhorse_section         = CrazyHorseSection()
+            Configuration.CRAZYHORSE_FEATURES = crazyhorse_section(config["crazyhorse"])
+        except KeyError:
+            crazyhorse.get_logger().fatal("No crazyhorse section defined in config")
+            raise exceptions.ConfigurationErrorException("No crazyhorse section defined in config")
 
     def initialize_custom_section(self, config, meta):
 

@@ -105,8 +105,10 @@ class ApplicationRoutesSection(ConfigurationSection):
     def __call__(self, section):
         crazyhorse.get_logger().debug("Processing Application Routes")
 
-        if "custom_errors" in section:
+        try:
             self.initialize_custom_errors(section["custom_errors"])
+        except KeyError:
+            crazyhorse.get_logger().debug("No custom errors defined for application")
 
         try:
             self.initialize_controllers(section["system"])

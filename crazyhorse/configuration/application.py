@@ -64,11 +64,17 @@ class ApplicationSection(ConfigurationSection):
         authorization_providers = None
         result = {}
 
-        if "settings" in section:
+        try:
             result["settings"] = section["settings"]
+        except KeyError:
+            result["settings"] = None
+            crazyhorse.get_logger().debug("No custom settings defined for application")
         
-        if "authorization_providers" in section:
+        try:
             result["authorization_providers"] = self.initialize_authorization_providers(section["authorization_providers"])
+        except KeyError:
+            result["authorization_providers"] = None
+            crazyhorse.get_logger().debug("No authorization providers defined for application")
         
         try:
             self.initialize_default_view(section["system"])

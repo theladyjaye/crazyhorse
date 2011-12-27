@@ -10,9 +10,9 @@ class CrazyHorseSection(ConfigurationSection):
 
     def initialize_features(self, section):
         #order is important here when it comes to cookies / sessions
-        #sessions must always be initialized after cookies.
+        #sessions must always be initialized AFTER cookies.
         #result = {}
-        result =[]
+        result = []
 
         if "request_body" in section:
             crazyhorse.get_logger().debug("Feature Enabled: Request Body")
