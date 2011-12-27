@@ -43,18 +43,21 @@ class Response(object):
             try:
                 value = result()
             except Exception as e:
-                crazyhorse.get_logger().error(e.message)
+                crazyhorse.get_logger().error(str(e))
 
         if value is not None:
             self.out.append(value.encode("utf-8"))
 
         # set the response cookies to override
         # existing cookies or set new cookies
-        for cookie in self.cookies.header_items():
-            self.headers.add("Set-Cookie", cookie)
+        # the cookies feature may not be enabled
+        try:
+            for cookie in self.cookies.header_items():
+                self.headers.add("Set-Cookie", cookie)
+        except AttributeError:
+            pass
 
         context.start_response(self.status, self.headers.items())
         #except Exception as e:
         #    print(e.message)
-
         return self
