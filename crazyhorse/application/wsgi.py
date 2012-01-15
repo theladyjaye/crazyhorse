@@ -31,7 +31,6 @@ class Application(object):
             context          = None
             path             = environ["PATH_INFO"]
             router           = routing.application_router
-            features         = None
 
             # paths in the router are normalzied to not end with a /
             # so we apply the same rule here
@@ -39,7 +38,6 @@ class Application(object):
             #if len(path) > 1 and path[-1:] is "/":
             #    path = path[:-1]
 
-            
             # we have a route object, lets get busy:
             httpcontext = HttpContext(environ, start_response)
             application_features = Configuration.CRAZYHORSE_FEATURES

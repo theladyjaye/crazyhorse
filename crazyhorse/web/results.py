@@ -12,7 +12,7 @@ class CrazyHorseResult(object):
     
     @property
     def content_type(self):
-        return "text/plain"
+        return "text/html; charset=utf-8"
 
 class JsonResult(CrazyHorseResult):
 

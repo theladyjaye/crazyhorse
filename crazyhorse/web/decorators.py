@@ -116,7 +116,7 @@ def route_method(method, route_name):
 
     try:
         route  = routing.application_router.route_with_name(route_name)
-    except (exceptions.InvalidRouteNameException) as e:
+    except (exceptions.InvalidRouteNameException):
         is_temp_action = True
 
     def decorator(f):

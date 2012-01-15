@@ -15,7 +15,6 @@ class Response(object):
         # points to the same object as 
         # request.cookies
         self.cookies = None
-
         self.headers = Headers()
         self.status  = ResponseStatus.OK
         self.out     = []
@@ -29,6 +28,7 @@ class Response(object):
 
     def __call__(self, context):
         result = self.result
+        
         # TODO 
         # cached response could you the wsgi.sendfile option?
 

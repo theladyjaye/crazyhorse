@@ -8,9 +8,14 @@ class Headers(object):
         it would have been Headers.add_header. No bueno for me.
         values must comply with PEP 333
     """
-    def __init__(self, values=[]):
-
-        self._headers = wsgiref.headers.Headers(values)
+    @classmethod
+    def with_collection(cls, collection):
+        headers = cls()
+        [headers.add(x[0], x[1]) for x in collection]
+        return headers
+    
+    def __init__(self):
+        self._headers = wsgiref.headers.Headers([])
 
     def add(self, name, value, **_params):
         self._headers.add_header(name, value, **_params)
