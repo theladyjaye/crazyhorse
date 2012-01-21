@@ -9,6 +9,11 @@ class DuplicateRouteNameException(Exception):
     def __init__(self, route_name, controller, action):
         self.message = "Route at {0}.{1} is using a duplicate name: {2}".format(controller, action, route_name)
 
+class InvalidConstraintException(Exception):
+
+    def __init__(self, pattern):
+        self.message = "Invalid route constraint. Unable to compile regex {0}".format(pattern)
+
 class InvalidRouteNameException(Exception):
 
     def __init__(self, route_name):

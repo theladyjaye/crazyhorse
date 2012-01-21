@@ -24,6 +24,8 @@ class Configuration(object):
                 self.initialize_sections(config)
             except ValueError as e:
                 crazyhorse.get_logger().fatal("Unable to decode crazyhorse.config: {0}".format(str(e)))
+            except exceptions.InvalidConstraintException as e:
+                crazyhorse.get_logger().fatal(e.message)
             except exceptions.DuplicateRouteNameException as e:
                 crazyhorse.get_logger().fatal("Duplicate route name defined: {0}".format(e.message))
             except Exception as e:

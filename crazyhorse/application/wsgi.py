@@ -1,6 +1,5 @@
 import sys
 from os.path import normpath
-import traceback
 import crazyhorse
 
 from crazyhorse.application import CrazyHorseExecutionContext

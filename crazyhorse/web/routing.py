@@ -1,4 +1,5 @@
 import re
+import os
 import weakref
 from crazyhorse.web import exceptions
 from crazyhorse.utils.tools import import_class
@@ -49,6 +50,7 @@ class Router(object):
 
 
 class Route(object):
+    # Note that the params test excludes periods.
     params_test = re.compile(r"\{([a-zA-Z0-9_]+)\}")
 
     def __init__(self, path=None, constraints=None):
@@ -73,8 +75,28 @@ class Route(object):
                     pattern = Route.params_test.sub(r"([^/]+)", path)
             else:
                 pattern = path
+            
+            # if the path is a directory, eg:
+            # /foo/bar
+            # we want crazyhorse to also match /foo/bar/
+            # if we find a "." in the basename this points us to a file
+            # so don't add an optional /? to the regex.
+            # if the ValueError is raised, no "." was found
+            # so we have a /foo/bar situation. In that case 
+            # also match /foo/bar/?
+            
+            extra = ""
+            
+            try:
+                os.path.basename(path).rindex(".")
+            except ValueError:
+               extra = "/?"
 
-            self.pattern = re.compile("^" + pattern + "$")
+            try:
+                self.pattern = re.compile("^" + pattern + extra + "$")
+            except Exception:
+                raise exceptions.InvalidConstraintException(pattern)
+
             if params is not None: self.params = params
 
     def register_action_for_method(self, method, controller, action, temp=False):
