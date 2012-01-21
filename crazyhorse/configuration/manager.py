@@ -22,9 +22,12 @@ class Configuration(object):
             try:
                 config      = json.load(config_json)
                 self.initialize_sections(config)
-            except ValueError:
+            except ValueError as e:
                 crazyhorse.get_logger().fatal("Unable to decode crazyhorse.config: {0}".format(str(e)))
+            except exceptions.DuplicateRouteNameException as e:
+                crazyhorse.get_logger().fatal("Duplicate route name defined: {0}".format(e.message))
             except Exception as e:
+
                 crazyhorse.get_logger().fatal("Error parsing config: {0}".format(str(e)))
 
     def initialize_sections(self, config):

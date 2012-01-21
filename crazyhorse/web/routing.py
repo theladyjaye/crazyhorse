@@ -6,7 +6,7 @@ from crazyhorse.utils.tools import import_class
 def register_route(name, controller, action, path, method="GET", constraints=None):
     route = Route(path, constraints)
     route.register_action_for_method(method, controller, action)
-    application_router.add_route(name, route)
+    application_router.add_route(name, route, method)
     return route
 
 class Router(object):
@@ -15,13 +15,14 @@ class Router(object):
         self.route_table      = []
         self.routes_available = {}
 
-    def add_route(self, name, route):
+    def add_route(self, name, route, method):
         """Add a route to the respective route collections"""
         if name not in self.routes_available:
             self.routes_available[name] = route
             self.route_table.append(route)
         else:
-            raise exceptions.DuplicateRouteNameException(name)
+            controller, action = route.actions[method]
+            raise exceptions.DuplicateRouteNameException(name, controller, action)
 
     def route_with_name(self, route_name):
         """Find a route based on the provided name"""

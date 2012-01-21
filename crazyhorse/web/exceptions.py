@@ -6,8 +6,8 @@ class ConfigurationErrorException(Exception):
 
 class DuplicateRouteNameException(Exception):
 
-    def __init__(self, route_name):
-        self.message = "Route name already exists: {0}".format(route_name)
+    def __init__(self, route_name, controller, action):
+        self.message = "Route at {0}.{1} is using a duplicate name: {2}".format(controller, action, route_name)
 
 class InvalidRouteNameException(Exception):
 
