@@ -89,9 +89,9 @@ class Application(object):
 
                 except exceptions.RouteExecutionException as e:
                     crazyhorse.get_logger().error(e.message)
-                    tb = sys.exc_info()[2]
-                    traceback.print_tb(tb, limit=5, file=sys.stdout)
-                    del tb
+                    #tb = sys.exc_info()[2]
+                    #traceback.print_tb(tb, limit=5, file=sys.stdout)
+                    #del tb
 
                     try:
                         route = router.route_with_name("500")
