@@ -1,7 +1,6 @@
 import sys
 from os.path import normpath
 import crazyhorse
-
 from crazyhorse.application import CrazyHorseExecutionContext
 from crazyhorse.configuration.manager import Configuration
 from crazyhorse.web.httpcontext import HttpContext
@@ -85,7 +84,6 @@ class Application(object):
 
                 try:
                     context.response.result = route(context)
-
                 except exceptions.RouteExecutionException as e:
                     crazyhorse.get_logger().error(e.message)
                     #tb = sys.exc_info()[2]
