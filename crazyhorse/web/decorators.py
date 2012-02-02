@@ -3,8 +3,8 @@ import os
 import crazyhorse
 from crazyhorse.web import routing
 from crazyhorse.web import exceptions
+from crazyhorse.web.httpcontext import HttpContext
 from crazyhorse.configuration.manager import Configuration
-from crazyhorse.web.results import ForbiddenResult
 
 def authorize(name="default"):
 
@@ -14,14 +14,8 @@ def authorize(name="default"):
                 auth_provider = Configuration.APP_AUTHORIZATION_PROVIDERS[name]
                 
                 def handler(*args, **kwargs):
-                    
-                    # crazyhorse_data is a weakref.WeakValueDictionary
-                    crazyhorse_data = handler.__dict__["crazyhorse"]
 
-                    if auth_provider.is_authorized(crazyhorse_data["httpcontext"]):
-                        # if there are multiple authorization providers
-                        # pass the httpcontext weakref.proxy
-                        f.__dict__["crazyhorse"] = crazyhorse_data
+                    if auth_provider.is_authorized(HttpContext.CURRENT):
                         return f(*args, **kwargs)
                     else:
                         raise exceptions.RouteAuthorizationException(name)
