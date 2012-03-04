@@ -1,7 +1,6 @@
 import re
 import os
 from crazyhorse.web import exceptions
-from crazyhorse.utils.tools import import_class
 
 def register_route(name, controller, action, path, method="GET", constraints=None):
     route = Route(path, constraints)
