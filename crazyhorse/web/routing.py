@@ -119,19 +119,12 @@ class Route(object):
         method     = context.method
         controller = None
         action     = None
-        #cls        = None
         result     = None
 
         try:
             controller, action = self.action_with_method(method)
         except KeyError as e:
             raise exceptions.RouteExecutionException(path, e.message)
-
-        # if controller not in route_controller_registry:
-        #     cls = import_class(controller)
-        #     route_controller_registry[controller] = cls
-        # else:
-        #     cls = route_controller_registry[controller]
 
         params = {}
 
@@ -141,7 +134,6 @@ class Route(object):
 
         # initialize the controller
         obj = controller_factory.create_controller(context, controller)
-        # obj = cls(context)
         
         try:
             init = getattr(obj, "initialize")
