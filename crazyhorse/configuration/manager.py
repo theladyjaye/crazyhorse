@@ -13,9 +13,10 @@ from crazyhorse.utils.tools import import_class
 
 class Configuration(object):
 
-    APP_SETTINGS                = None
-    APP_AUTHORIZATION_PROVIDERS = None
-    CRAZYHORSE_FEATURES         = None
+    APP_SETTINGS                  = None
+    APP_AUTHORIZATION_PROVIDERS   = None
+    CRAZYHORSE_FEATURES           = None
+    CRAZYHORSE_CONTROLLER_FACTORY = None
 
     def __init__(self):
         with open(os.getcwd() + "/crazyhorse.config") as config_json:

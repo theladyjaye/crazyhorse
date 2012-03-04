@@ -1,18 +1,24 @@
+from crazyhorse.web.httpcontext import HttpContext
 from crazyhorse.web.results import RedirectResult
 from crazyhorse.web.results import JsonResult
 
 class CrazyHorseController(object):
     view_class = None
 
-    def __init__(self, httpcontext):
-        self._httpcontext = httpcontext
-
     def initialize(self, request):
         pass
 
     @property
     def httpcontext(self):
-        return self._httpcontext
+        return HttpContext.CURRENT
+
+    @property
+    def request(self):
+        return HttpContext.CURRENT.request
+
+    @property
+    def response(self):
+        return HttpContext.CURRENT.response
 
     def redirect(self, location):
         return RedirectResult(location)

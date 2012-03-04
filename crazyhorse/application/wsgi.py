@@ -39,13 +39,16 @@ class Application(object):
             # we have a route object, lets get busy:
             httpcontext = HttpContext(environ, start_response)
             application_features = Configuration.CRAZYHORSE_FEATURES
+            controller_factory   = Configuration.CRAZYHORSE_CONTROLLER_FACTORY
             
             crazyhorse_context = CrazyHorseExecutionContext(self.application, 
                                                             application_features,
-                                                            httpcontext)
+                                                            httpcontext,
+                                                            controller_factory)
 
             with crazyhorse_context as ctx:
-                context = ctx.httpcontext
+                context            = ctx.httpcontext
+                controller_factory = ctx.controller_factory
 
                 try:
                     route = router.route_for_path(path)
@@ -83,7 +86,7 @@ class Application(object):
                 # Feels a little sloppy to me
 
                 try:
-                    context.response.result = route(context)
+                    context.response.result = route(context, controller_factory)
                 except exceptions.RouteExecutionException as e:
                     crazyhorse.get_logger().error(e.message)
                     #tb = sys.exc_info()[2]

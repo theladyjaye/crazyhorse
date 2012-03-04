@@ -1,12 +1,17 @@
 from __future__ import absolute_import
 import crazyhorse
-from crazyhorse.configuration.sections import ConfigurationSection
 from crazyhorse.utils.tools import import_class
+from crazyhorse.configuration.manager import Configuration
+from crazyhorse.configuration.sections import ConfigurationSection
 
 class CrazyHorseSection(ConfigurationSection):
 
     def __init__(self):
         pass
+
+    def initialize_controller_factory(self, qualified_name):
+        cls = import_class(qualified_name)
+        Configuration.CRAZYHORSE_CONTROLLER_FACTORY = cls()
 
     def initialize_features(self, section):
         #order is important here when it comes to cookies / sessions
@@ -51,5 +56,10 @@ class CrazyHorseSection(ConfigurationSection):
             features = self.initialize_features(section["features"])
         except KeyError:
             crazyhorse.get_logger().critical("No crazyhorse features defined in config")
+
+        try:
+            self.initialize_controller_factory(section["controller_factory"])
+        except KeyError:
+            crazyhorse.get_logger().critical("No controller factory defined in config")
 
         return features

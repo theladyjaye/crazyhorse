@@ -1,6 +1,5 @@
 import re
 import os
-import weakref
 from crazyhorse.web import exceptions
 from crazyhorse.utils.tools import import_class
 
@@ -115,12 +114,12 @@ class Route(object):
                 else:
                     raise e
 
-    def __call__(self, context):
+    def __call__(self, context, controller_factory):
         path       = context.path
         method     = context.method
         controller = None
         action     = None
-        cls        = None
+        #cls        = None
         result     = None
 
         try:
@@ -128,11 +127,11 @@ class Route(object):
         except KeyError as e:
             raise exceptions.RouteExecutionException(path, e.message)
 
-        if controller not in route_controller_registry:
-            cls = import_class(controller)
-            route_controller_registry[controller] = cls
-        else:
-            cls = route_controller_registry[controller]
+        # if controller not in route_controller_registry:
+        #     cls = import_class(controller)
+        #     route_controller_registry[controller] = cls
+        # else:
+        #     cls = route_controller_registry[controller]
 
         params = {}
 
@@ -140,7 +139,9 @@ class Route(object):
             result = self.pattern.match(path)
             params = dict(zip(self.params, result.groups()))
 
-        obj = cls(context)
+        # initialize the controller
+        obj = controller_factory.create_controller(context, controller)
+        # obj = cls(context)
         
         try:
             init = getattr(obj, "initialize")
@@ -152,6 +153,7 @@ class Route(object):
         method = getattr(obj, action)
         
         try:
+            # execute the action
             result = method(**params)
 
             if result is not None:

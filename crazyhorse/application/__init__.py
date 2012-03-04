@@ -1,8 +1,9 @@
 class CrazyHorseExecutionContext(object):
-    def __init__(self, application, features, httpcontext):
-        self.application = application
-        self.httpcontext = httpcontext
-        self.features = features
+    def __init__(self, application, features, httpcontext, controller_factory):
+        self.application        = application
+        self.httpcontext        = httpcontext
+        self.controller_factory = controller_factory
+        self.features           = features
     
     def __enter__(self):
         context = self.httpcontext
