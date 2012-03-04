@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 import crazyhorse
 from crazyhorse.utils.tools import import_class
-from crazyhorse.configuration.manager import Configuration
 from crazyhorse.configuration.sections import ConfigurationSection
 
 class CrazyHorseSection(ConfigurationSection):
@@ -10,6 +9,9 @@ class CrazyHorseSection(ConfigurationSection):
         pass
 
     def initialize_controller_factory(self, qualified_name):
+        # there is an import error that necessitates this import 
+        # statement here. If we place it above, an error is thrown
+        from crazyhorse.configuration.manager import Configuration
         cls = import_class(qualified_name)
         Configuration.CRAZYHORSE_CONTROLLER_FACTORY = cls()
 

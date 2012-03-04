@@ -1,8 +1,6 @@
 import logging
 import crazyhorse.utils.logging
-
 _logger = None
-
 
 def get_logger():
     global _logger
