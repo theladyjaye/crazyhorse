@@ -95,7 +95,7 @@ class Application(object):
 
                     try:
                         route = router.route_with_name("500")
-                        context.response.result = route(context)
+                        context.response.result = route(context, controller_factory)
 
                     except (exceptions.InvalidRouteNameException, exceptions.RouteExecutionException) as e:
                         # No 500 route, or it failed, in either case we are done here
@@ -109,7 +109,7 @@ class Application(object):
 
                     try:
                         route = router.route_with_name("authorization." + e.provider_name)
-                        context.response.result = route(context)
+                        context.response.result = route(context, controller_factory)
                     except (exceptions.InvalidRouteNameException, exceptions.RouteExecutionException) as e:
                         # No authorization error route, or it failed, in either case we are done here
                         result = ForbiddenResult()

@@ -3,6 +3,23 @@ import crazyhorse
 from crazyhorse.utils.tools import import_class
 from crazyhorse.configuration.sections import ConfigurationSection
 
+class CrazyHorseFeatureCollection(object):
+    def __init__(self):
+        self._features = []
+
+    def register(self, feature):
+        self._features.append(self.load_feature(feature))
+
+    def register_authentication(self, feature):
+        self.authenticate = self.load_feature(feature)
+
+    def load_feature(self, pkg):
+        obj = import_class(pkg)
+        return obj
+
+    def __iter__(self):
+        return iter(self._features)
+
 class CrazyHorseSection(ConfigurationSection):
 
     def __init__(self):
@@ -19,35 +36,34 @@ class CrazyHorseSection(ConfigurationSection):
         #order is important here when it comes to cookies / sessions
         #sessions must always be initialized AFTER cookies.
         #result = {}
-        result = []
+        features = CrazyHorseFeatureCollection()
 
         if "request_body" in section:
             crazyhorse.get_logger().debug("Feature Enabled: Request Body")
             #result["request_body"] = self.load_feature(section["request_body"])
-            result.append(self.load_feature(section["request_body"]))
+            features.register(section["request_body"])
 
         if "querystrings" in section:
             crazyhorse.get_logger().debug("Feature Enabled: Query Strings")
-            result.append(self.load_feature(section["querystrings"]))
-        
+            features.register(section["querystrings"])
         
         if "cookies" in section:
             crazyhorse.get_logger().debug("Feature Enabled: Cookies")
-            result.append(self.load_feature(section["cookies"]))
+            features.register(section["cookies"])
 
-        # needs to go last, so cookies can be initialized first.
+        # needs to go after cookies, cookies must be initialized first.
         if "sessions" in section:
             if "cookies" not in section:
                 crazyhorse.get_logger().critical("Attempt to enable Sessions without enabling Cookies")
             else:
                 crazyhorse.get_logger().debug("Feature Enabled: Sessions")
-                result.append(self.load_feature(section["sessions"]))
+                features.register(section["sessions"])
 
-        return result
+        if "authentication" in section:
+            crazyhorse.get_logger().debug("Feature Enabled: Authentication")
+            features.register_authentication(section["authentication"])
 
-    def load_feature(self, pkg):
-        obj = import_class(pkg)
-        return obj
+        return features
 
     def __call__(self, section):
 

@@ -18,9 +18,8 @@ class Request(object):
         self.files          = None
 
         http_filter            = (x for x in environ if x.startswith("HTTP"))
-        http_header_key_values = [(x[5:].replace("_", "-").lower(), environ[x]) for x in http_filter]
-        self.Headers           = Headers.with_collection(http_header_key_values)
-        del http_header_key_values
+        http_header_key_values = ((x[5:].replace("_", "-").lower(), environ[x]) for x in http_filter)
+        self.headers           = Headers.with_collection(http_header_key_values)
 
     @property
     def is_ajax_request(self):
