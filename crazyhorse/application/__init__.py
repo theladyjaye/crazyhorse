@@ -11,14 +11,14 @@ class CrazyHorseExecutionContext(object):
     
     def __enter__(self):
         context = self.httpcontext
-        features = self.features
         
         # if you would like __crazyhorse_exit__ to be called on a feature when the 
-        # context manager exits, your call on the feature must return an object
+        # context manager exits, the call on the feature must return an object
         # that has the method __crazyhorse_exit__
-        self.features = ifilter(None, features)
-
+        # for example, when to save a session object.
+        self.features = ifilter(None, self.features)
         self.application.application_begin_request(context)
+        
         try:
             features.authenticate(context)
         except AttributeError:
