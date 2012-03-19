@@ -2,7 +2,6 @@ import urlparse
 from crazyhorse.features.params import ParamCollection
 
 def feature_querystrings(context):
-
     params = None
     data   = None
     try:
