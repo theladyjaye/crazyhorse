@@ -8,19 +8,24 @@ class CrazyHorseExecutionContext(object):
         self.httpcontext        = httpcontext
         self.controller_factory = controller_factory
         self.features           = imap(lambda feature,ctx: feature(ctx), features, repeat(httpcontext))
-    
+
+        try:
+            self.authenticate = features.authenticate
+        except AttributeError:
+            pass
+            
     def __enter__(self):
-        context = self.httpcontext
-        
+        context  = self.httpcontext
+        features = self.features
         # if you would like __crazyhorse_exit__ to be called on a feature when the 
         # context manager exits, the call on the feature must return an object
         # that has the method __crazyhorse_exit__
         # for example, when to save a session object.
-        self.features = ifilter(None, self.features)
+        self.features = ifilter(None, features)
         self.application.application_begin_request(context)
         
         try:
-            features.authenticate(context)
+            self.authenticate(context)
         except AttributeError:
             pass
 
