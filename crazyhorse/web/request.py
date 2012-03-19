@@ -16,6 +16,9 @@ class Request(object):
         self.cookies        = None
         self.data           = None
         self.files          = None
+        self.user_agent     = environ.get("HTTP_USER_AGENT", "Unknown")
+        self.http_method    = environ["REQUEST_METHOD"].upper()
+        self.path           = environ["PATH_INFO"]
 
         http_filter            = (x for x in environ if x.startswith("HTTP"))
         http_header_key_values = ((x[5:].replace("_", "-").lower(), environ[x]) for x in http_filter)
@@ -23,7 +26,6 @@ class Request(object):
 
     @property
     def is_ajax_request(self):
-        
         try:
             ajax_header = self.headers["x-requested-with"].lower()
         except AttributeError:
