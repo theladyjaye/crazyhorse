@@ -4,9 +4,6 @@ class Request(object):
     def __init__(self, environ):
 
         # self.environment    = environ
-        #self.path           = environ["PATH_INFO"]
-        #self.request_method = environ.get("REQUEST_METHOD", "GET").upper()
-        #self.user_agent     = environ.get("HTTP_USER_AGENT", "Unknown")
         #self.accepts        = environ.get("HTTP_ACCEPT", "text/plain")
         #self.language       = environ.get("HTTP_ACCEPT_LANGUAGE", "en-US")
         #self.charset        = environ.get("HTTP_ACCEPT_CHARSET", "utf-8")
