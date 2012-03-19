@@ -10,7 +10,11 @@ class HttpContext(object):
         self.method         = environ.get("REQUEST_METHOD", "GET").upper()
         self.request        = Request(environ)
         self.response       = Response()
-        self.views          = None
+        self.identity       = None
+
+        # what is self.views used for?
+        # self.views          = None
+
         self.session        = None
         self.environ        = environ
         self.start_response = start_response

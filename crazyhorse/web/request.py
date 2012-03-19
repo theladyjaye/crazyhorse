@@ -17,6 +17,7 @@ class Request(object):
         self.http_method    = environ["REQUEST_METHOD"].upper()
         self.path           = environ["PATH_INFO"]
 
+
         http_filter            = (x for x in environ if x.startswith("HTTP"))
         http_header_key_values = ((x[5:].replace("_", "-").lower(), environ[x]) for x in http_filter)
         self.headers           = Headers.with_collection(http_header_key_values)
