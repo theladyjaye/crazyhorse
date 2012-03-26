@@ -21,7 +21,8 @@ class CrazyHorseExecutionContext(object):
         # context manager exits, the call on the feature must return an object
         # that has the method __crazyhorse_exit__
         # for example, when to save a session object.
-        self.features = ifilter(None, features)
+
+        self.features = list(ifilter(None, features))
         self.application.application_begin_request(context)
         
         try:

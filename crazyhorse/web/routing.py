@@ -157,6 +157,9 @@ class Route(object):
         
         return result
 
+    def __repr__(self):
+        return "<crazyhorse.web.routing.Route object at {} for {}>".format(hex(id(self)), self.path)
+
 temp_routes               = {}
 route_controller_registry = {}
 application_router        = Router();
